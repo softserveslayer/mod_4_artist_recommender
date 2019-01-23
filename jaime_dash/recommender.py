@@ -15,27 +15,63 @@ new_df = new_df.iloc[1:,:]
 artists = list(df.Artist)
 app = dash.Dash()
 
-# app.layout = dash_table.DataTable(
-#     id='top_ten_table',
-#     # columns=[{"name": i, "id": i} for i in new_df['The Glitch Mob']],
-#     # columns=[{"name": i, "id": i} for i in new_df.iloc[:,5:6].columns],
-#     columns = ['Artists'],
-#     data=new_df['The Glitch Mob'].to_dict(),
-#     # data=new_df.iloc[:,5:6].to_dict("rows"),
-#
-# )
 
-app.layout = html.Div([
-    dcc.Dropdown(
-    id = 'artist_dropdown',
-    options=artist_dropdown,
-    value= 'test'
-), html.Div(
-list(new_df['Katy Perry'])
+app.layout = html.Div(
+    children=[
+    dcc.Tabs(id="tabs", children=[
+        dcc.Tab(id='artist-to-artist', label='Artist-to-Artist Recommendation',
+            children=[
+                dcc.Dropdown(
+                id = 'artist_dropdown',
+                options=artist_dropdown,
+                value= 'blink-182'
+            ),
+            html.Div(
+            html.P([html.P(artist) for artist in new_df['blink-182']],
+            id = 'top_artists')
+            )
+            ]
+        ),
+        dcc.Tab(id='EDA', label='Exploratory Data Analysis',
+            children=[dcc.Graph(
+    figure=go.Figure(
+        data=[
+            go.Bar(
+                x=list(top_20.index),
+                y=list(top_20.plays),
+                name='Top 20',
+                marker=go.bar.Marker(
+                    color='rgb(55, 83, 109)'
+                )
+            )
+        ],
+        layout=go.Layout(
+            title='Top 20 artists by plays',
+            showlegend=True,
+            legend=go.layout.Legend(
+                x=0,
+                y=1.0
+            ),
+            margin=go.layout.Margin(l=40, r=0, t=40, b=60)
+        )
+    ),
+    style={'height': 500},
+    id='my-graph'
 )
-])
+            ]
+        )
 
+        ])
+    ]
 
+)
+
+@app.callback(
+    Output(component_id='top_artists', component_property='children'),
+    [Input(component_id='artist_dropdown', component_property='value')]
+)
+def update_output_div(input_value):
+    return [html.P(artist) for artist in new_df[input_value]]
 
 if __name__ == '__main__':
     app.run_server(debug=True)
