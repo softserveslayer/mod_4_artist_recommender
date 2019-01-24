@@ -49,3 +49,10 @@ users_artists_piv.head()
 play_counts = users_artists_piv.sum(axis = 0, skipna = True).sort_values(ascending = False)
 play_counts = pd.DataFrame(play_counts, columns = ['plays'])
 top_20 = pd.DataFrame(play_counts.nlargest(20, 'plays'))
+
+
+artist_count = users_artists.groupby('name')['plays'].count()
+
+total_plays = users_artists.groupby('name')['plays'].sum()
+# total_plays = pd.DataFrame(total_plays)
+# total_plays = total_plays.sort_values(by=['plays'], ascending = False)
