@@ -4,7 +4,7 @@
 Python, Numpy, SciPy, Dash, Flask, HTML
 
 ## Introduction
-We built a Dash integrated Flask App to recommend users a list of 10 musical artists from their pick of a single artist. We used data from the RadioFM dataset of play count from 1800 listeners of 17,000 artists. Play counts were used to as a metric to build the recommendation system, this is known as an implicate rating. 
+We built a Dash integrated Flask App to recommend users a list of 10 musical artists from their pick of a single artist. We used data from the RadioFM dataset of play count from 1800 listeners of 17,000 artists. Play counts were used as a metric to build the recommendation system, this is known as implicate rating. 
 
 
 ## Item to Item Recommendation System
